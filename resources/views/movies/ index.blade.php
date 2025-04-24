@@ -1,23 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
 <head>
-    <title>Список фильмов</title>
+    <title>Фильмы</title>
+    <meta charset="UTF-8">
 </head>
 <body>
 <h1>Список фильмов</h1>
-
-@if($movies->count())
-    <ul>
-        @foreach(movies asmovie)
-            <li>
-                <strong>{{ movie->title </strong> (movie->year }})<br>
-                    Описание: {{ $movie->description }}
-            </li>
-        @endforeach
-    </ul>
-@else
-    <p>Фильмов пока нет.</p>
-@endif
-
+<ul>
+    @foreach ($movies as $movie)
+        <li>
+            <strong>{{ $movie->title }}</strong> <em>({{ $movie->year }})</em>
+        </li>
+    @endforeach
+</ul>
 </body>
 </html>
