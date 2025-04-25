@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
 <head>
-    <title>Список фильмов</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Movies</title>
     <style>
         .movie-card {
             margin-bottom: 30px;
