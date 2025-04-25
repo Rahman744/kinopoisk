@@ -1,43 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>Список фильмов</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .movie-card {
+            margin-bottom: 30px;
+        }
+        .movie-poster {
+            height: 400px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
-<h1>Список фильмов</h1>
-<ul>
-    @foreach ($movies as $movie)
-        <li>
-            <strong>{{ $movie->title }}</strong> ({{ $movie->year }}) —
-            <em>{{ $movie->genre->name ?? 'Без жанра' }}</em><br>
-
-            <small>Актёры:
-                @foreach ($movie->actors as $actor)
-                    {{ !$loop->first ? ', ' : '' }}{{ $actor->name }}
-                @endforeach
-            </small><br>
-
-            <strong>Оценка:</strong>
-            @if ($movie->reviews->count() > 0)
-                {{ round($movie->reviews->avg('rating'), 1) }} / 10
-            @else
-                Нет оценок
-            @endif
-            <br>
-
-            <strong>Отзывы:</strong>
-            <ul>
-                @forelse ($movie->reviews as $review)
-                    <li>
-                        <em>{{ $review->user->name ?? 'Аноним' }}:</em> {{ $review->content }}
-                    </li>
-                @empty
-                    <li>Пока нет отзывов.</li>
-                @endforelse
-            </ul>
-        </li>
-    @endforeach
-</ul>
+<div class="container mt-5">
+    <h1 class="mb-4">Список фильмов</h1>
+    <div class="row">
+        @foreach ($movies as $movie)
+            <div class="col-md-4 movie-card">
+                <div class="card h-100">
+                    @if($movie->poster)
+                        <img src="{{ asset('images/movies/' . $movie->poster) }}" class="card-img-top movie-poster" alt="{{ $movie->title }}">
+                    @else
+                        <img src="{{ asset('images/movies/default.jpg') }}" class="card-img-top movie-poster" alt="Нет изображения">
+                    @endif
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $movie->title }} ({{ $movie->year }})</h5>
+                        <p class="card-text"><strong>Жанр:</strong> {{ $movie->genre->name ?? 'Без жанра' }}</p>
+                        <p class="card-text"><strong>Актёры:</strong>
+                            @foreach ($movie->actors as $actor)
+                                {{ !$loop->first ? ', ' : '' }}{{ $actor->name }}
+                            @endforeach
+                        </p>
+                        <p class="card-text"><strong>Оценка:</strong>
+                            @if ($movie->reviews->count() > 0)
+                                {{ round($movie->reviews->avg('rating'), 1) }} / 10
+                            @else
+                                Нет оценок
+                            @endif
+                        </p>
+                        <p class="card-text"><strong>Отзывы:</strong></p>
+                        <ul>
+                            @forelse ($movie->reviews as $review)
+                                <li><em>{{ $review->user->name ?? 'Аноним' }}:</em> {{ $review->content }}</li>
+                            @empty
+                                <li>Пока нет отзывов.</li>
+                            @endforelse
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
 </body>
 </html>
